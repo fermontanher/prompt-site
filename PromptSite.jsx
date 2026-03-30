@@ -4,7 +4,7 @@ import {
   DollarSign, AlertTriangle, Zap, Globe, Code, Shield,
   Rocket, Star, Users, Bot, Layers, Terminal, ChevronDown,
   TrendingUp, Target, Lock
-} from "lucide-react";h
+} from "lucide-react";
 
 // ─── Google Fonts Loader ───────────────────────────────────────────────h───────
 const FontLoader = () => {

@@ -4,7 +4,7 @@ import {
   DollarSign, AlertTriangle, Zap, Globe, Code, Shield,
   Rocket, Star, Users, Bot, Layers, Terminal, ChevronDown,
   TrendingUp, Target, Lock
-} from "lucide-react";
+} from "lucide-react";h
 
 // ─── Google Fonts Loader ───────────────────────────────────────────────h───────
 const FontLoader = () => {
@@ -614,7 +614,7 @@ const PricingCompare = () => {
       rows: [
         { label: "SEo técnico avançado",      starter: false,         pro: true,            premium: true },
         { label: "Meta tags + Open Graph",    starter: "Básico",      pro: true,            premium: true },
-        { label: "Sitemap + robots.txt",      starter: false,         pro: true,     #       premium: true },
+        { label: "Sitemap + robots.txt",      starter: false,         pro: true,            premium: true },
         { label: "Integração WhatsApp / CRM", starter: false,         pro: true,            premium: true },
         { label: "Analytics configurado",     starter: false,         pro: true,            premium: true },
         { label: "Integrações avançadas",     starter: false,         pro: false,           premium: true },

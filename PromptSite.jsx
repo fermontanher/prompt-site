@@ -6,7 +6,7 @@ import {
   TrendingUp, Target, Lock
 } from "lucide-react";
 
-// ─── Google Fonts Loader ──────────────────────────────────────────────────────
+// ─── Google Fonts Loader ───────────────────────────────────────────────h───────
 const FontLoader = () => {
   useEffect(() => {
     if (!document.querySelector("#inter-font-link")) {
@@ -173,7 +173,7 @@ const Nav = () => {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "1.1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-          <div style={{ width: 32, h�ight: 32, borderRadius: 10, background: "linear-gradient(135deg,#6366f1,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 32, height: 32, borderRadius: 10, background: "linear-gradient(135deg,#6366f1,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Sparkles size={16} color="white" />
           </div>
           <span style={{ color: "white", fontSize: "1.1rem", fontWeight: 300, letterSpacing: "0.03em" }}>Prompt Site</span>
@@ -383,7 +383,7 @@ const PlansSection = () => {
       desc: "Pra quem precisa de presença digital básica, sem frescura.",
       color: "rgba(255,255,255,0.06)",
       border: "rgba(255,255,255,0.1)",
-      highlight: false,
+      higheight: false,
       features: [
         { ok: true, text: "1 landing page completa" },
         { ok: true, text: "Até 5 seções estratégicas" },
@@ -409,7 +409,7 @@ const PlansSection = () => {
       desc: "O equilíbrio perfeito entre impacto visual e resultado real.",
       color: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.08))",
       border: "rgba(99,102,241,0.5)",
-      highlight: true,
+      higheight: true,
       scarcity: "Apenas 3 vagas este mês",
       features: [
         { ok: true, text: "Landing page completa multi-seção" },
@@ -435,7 +435,7 @@ const PlansSection = () => {
       desc: "Site completo, com tudo que uma empresa séria precisa.",
       color: "rgba(255,255,255,0.04)",
       border: "rgba(255,255,255,0.1)",
-      highlight: false,
+      higheight: false,
       features: [
         { ok: true, text: "Site completo multi-página" },
         { ok: true, text: "Blog integrado com painel admin" },
@@ -478,13 +478,13 @@ const PlansSection = () => {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.25rem", alignItems: "start" }}>
           {plans.map((plan) => (
             <div key={plan.name} style={{
-              padding: plan.highlight ? "2.25rem" : "2rem",
+              padding: plan.higheight ? "2.25rem" : "2rem",
               borderRadius: 20,
               border: `1px solid ${plan.border}`,
               background: plan.color,
               position: "relative",
-              transform: plan.highlight ? "scale(1.03)" : "scale(1)",
-              boxShadow: plan.highlight ? "0 0 60px rgba(99,102,241,0.2)" : "none",
+              transform: plan.higheight ? "scale(1.03)" : "scale(1)",
+              boxShadow: plan.higheight ? "0 0 60px rgba(99,102,241,0.2)" : "none",
               transition: "transform 0.3s",
             }}>
               {plan.tag && (
@@ -500,7 +500,7 @@ const PlansSection = () => {
                 </div>
               )}
 
-              <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, fontSize: "1rem", color: plan.highlight ? "#a5b4fc" : "rgba(255,255,255,0.6)", marginBottom: "0.5rem" }}>{plan.name}</p>
+              <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, fontSize: "1rem", color: plan.higheight ? "#a5b4fc" : "rgba(255,255,255,0.6)", marginBottom: "0.5rem" }}>{plan.name}</p>
 
               <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: "0.5rem" }}>
                 <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 800, fontSize: "2.5rem", color: "white" }}>R$ {plan.price.toLocaleString("pt-BR")}</span>
@@ -633,23 +633,23 @@ const PricingCompare = () => {
   ];
 
   const plans = [
-    { key: "starter", name: "Starter",  price: "R$ 497",  highlight: false },
-    { key: "pro",     name: "Pro",      price: "R$ 997",  highlight: true  },
-    { key: "premium", name: "Premium",  price: "R$ 1.997",highlight: false },
+    { key: "starter", name: "Starter",  price: "R$ 497",  higheight: false },
+    { key: "pro",     name: "Pro",      price: "R$ 997",  higheight: true  },
+    { key: "premium", name: "Premium",  price: "R$ 1.997",higheight: false },
   ];
 
-  const renderCell = (val, planKey, isHighlight) => {
+  const renderCell = (val, planKey, isHigheight) => {
     if (val === true)  return <span style={{ color: "#86efac", fontSize: "1rem" }}>✓</span>;
     if (val === false) return <span style={{ color: "rgba(255,255,255,0.18)", fontSize: "0.85rem" }}>—</span>;
     return (
-      <span style={{ fontFamily: "Inter, sans-serif", fontWeight: isHighlight ? 500 : 300, fontSize: "0.82rem", color: isHighlight ? "#e0e7ff" : "rgba(255,255,255,0.55)" }}>
+      <span style={{ fontFamily: "Inter, sans-serif", fontWeight: isHigheight ? 500 : 300, fontSize: "0.82rem", color: isHigheight ? "#e0e7ff" : "rgba(255,255,255,0.55)" }}>
         {val}
       </span>
     );
   };
 
-  const colBg   = (p) => p.highlight ? "rgba(99,102,241,0.10)" : "transparent";
-  const colBdr  = (p) => p.highlight ? "rgba(99,102,241,0.35)" : "rgba(255,255,255,0.06)";
+  const colBg   = (p) => p.higheight ? "rgba(99,102,241,0.10)" : "transparent";
+  const colBdr  = (p) => p.higheight ? "rgba(99,102,241,0.35)" : "rgba(255,255,255,0.06)";
 
   return (
     <section style={{ background: "#050508", padding: "5rem 1.5rem" }}>
@@ -684,13 +684,13 @@ const PricingCompare = () => {
                     onMouseEnter={() => setHovered(p.key)}
                     onMouseLeave={() => setHovered(null)}
                     style={{ padding: "1.25rem 1rem", textAlign: "center", width: "21.6%", background: colBg(p), borderLeft: `1px solid ${colBdr(p)}`, borderTop: `1px solid ${colBdr(p)}`, borderTopLeftRadius: 12, borderTopRightRadius: 12, transition: "background 0.2s", cursor: "default" }}>
-                    {p.highlight && (
+                    {p.higheight && (
                       <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", fontWeight: 600, color: "#a5b4fc", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>
                         ⭐ Recomendado
                       </div>
                     )}
                     <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, color: "white", fontSize: "1rem" }}>{p.name}</div>
-                    <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 700, color: p.highlight ? "#a5b4fc" : "rgba(255,255,255,0.7)", fontSize: "1.25rem", marginTop: "0.3rem" }}>{p.price}</div>
+                    <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 700, color: p.higheight ? "#a5b4fc" : "rgba(255,255,255,0.7)", fontSize: "1.25rem", marginTop: "0.3rem" }}>{p.price}</div>
                   </th>
                 ))}
               </tr>
@@ -729,7 +729,7 @@ const PricingCompare = () => {
                             borderBottomRightRadius: isLast && p.key === "premium" ? 0 : 0,
                             transition: "background 0.2s",
                           }}>
-                            {renderCell(row[p.key], p.key, p.highlight)}
+                            {renderCell(row[p.key], p.key, p.higheight)}
                           </td>
                         ))}
                       </tr>
@@ -745,8 +745,8 @@ const PricingCompare = () => {
                   <td key={p.key} style={{ padding: "1.5rem 1rem", textAlign: "center", background: colBg(p), borderLeft: `1px solid ${colBdr(p)}`, borderBottom: `1px solid ${colBdr(p)}`, borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}>
                     <button style={{
                       width: "100%", padding: "0.7rem 0.5rem", borderRadius: 10,
-                      background: p.highlight ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "rgba(255,255,255,0.07)",
-                      color: "white", border: p.highlight ? "none" : "1px solid rgba(255,255,255,0.12)",
+                      background: p.higheight ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "rgba(255,255,255,0.07)",
+                      color: "white", border: p.higheight ? "none" : "1px solid rgba(255,255,255,0.12)",
                       fontSize: "0.82rem", fontWeight: 600, cursor: "pointer",
                       fontFamily: "Inter, sans-serif", transition: "opacity 0.2s, transform 0.15s",
                     }}

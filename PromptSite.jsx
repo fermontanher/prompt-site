@@ -289,7 +289,7 @@ const Hero = () => (
 
       {/* CTAs */}
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-        <button style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", border: "none", borderRadius: 999, padding: "1rem 2.2rem", fontSize: "1.05rem", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", transition: "transform 0.2s, box-shadow 0.2s" }}
+        <button onClick={() => window.open("https://wa.me/5514981294576?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20come%C3%A7ar%20meu%20projeto%20%F0%9F%9A%80", "_blank")} style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", border: "none", borderRadius: 999, padding: "1rem 2.2rem", fontSize: "1.05rem", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", transition: "transform 0.2s, box-shadow 0.2s" }}
           onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.boxShadow = "0 0 40px rgba(99,102,241,0.4)"; }}
           onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}>
           Quero meu site agora <ArrowRight size={18} />
@@ -407,22 +407,13 @@ const PlansSection = () => {
   const [annual, setAnnual] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(null);
 
-  const handleCheckout = async (planId) => {
+  const handleCheckout = (planId) => {
     setLoadingPlan(planId);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planId }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert("Erro ao iniciar pagamento. Tente novamente.");
-    } catch {
-      alert("Erro ao conectar. Tente novamente.");
-    } finally {
-      setLoadingPlan(null);
-    }
+    const planNames = { starter: "Starter (R$497)", pro: "Pro (R$997)", premium: "Premium (R$1.997)" };
+    const planName = planNames[planId] || planId;
+    const msg = `Olá! Vim pelo site e tenho interesse no plano ${planName}. Pode me passar mais detalhes? 🚀`;
+    window.open(`https://wa.me/5514981294576?text=${encodeURIComponent(msg)}`, "_blank");
+    setLoadingPlan(null);
   };
 
   const plans = [
@@ -912,13 +903,13 @@ const FinalCTA = () => (
       <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)", fontSize: "1.1rem", lineHeight: 1.8, marginBottom: "2.5rem" }}>
         Enquanto você lê isso, seus concorrentes estão online. Não adie mais o que pode transformar seu negócio ainda esta semana.
       </p>
-      <button style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", border: "none", borderRadius: 999, padding: "1.1rem 2.5rem", fontSize: "1.1rem", fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Inter, sans-serif", transition: "transform 0.2s, box-shadow 0.2s" }}
+      <button onClick={() => window.open("https://wa.me/5514981294576?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20come%C3%A7ar%20meu%20projeto%20%F0%9F%9A%80", "_blank")} style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", border: "none", borderRadius: 999, padding: "1.1rem 2.5rem", fontSize: "1.1rem", fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Inter, sans-serif", transition: "transform 0.2s, box-shadow 0.2s" }}
         onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.boxShadow = "0 0 50px rgba(99,102,241,0.4)"; }}
         onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}>
         Quero meu site agora <ArrowRight size={20} />
       </button>
       <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.25)", fontSize: "0.8rem", marginTop: "1.25rem" }}>
-        Pagamento seguro via Stripe · Garantia de satisfação · Suporte via WhatsApp
+        Atendimento via WhatsApp · Garantia de satisfação · Entrega rápida
       </p>
     </div>
   </section>

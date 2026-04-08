@@ -1031,26 +1031,23 @@ const ContactForm = () => {
 
   const handle = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!form.name || !form.business || !form.contact) return;
     setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Erro ao enviar. Tente novamente.");
-      }
-      setSent(true);
-    } catch (err) {
-      setError(err.message || "Erro inesperado. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
+    const lines = [
+      `Olá! Vim pelo site e quero começar meu projeto 🚀`,
+      ``,
+      `*Nome:* ${form.name}`,
+      `*Negócio:* ${form.business}`,
+      form.audience ? `*Público-alvo:* ${form.audience}` : null,
+      form.differentiator ? `*Diferencial:* ${form.differentiator}` : null,
+      `*Contato:* ${form.contact}`,
+      form.plan ? `*Plano de interesse:* ${form.plan}` : null,
+    ].filter(Boolean).join("\n");
+    const url = `https://wa.me/5514981294576?text=${encodeURIComponent(lines)}`;
+    setSent(true);
+    setLoading(false);
+    window.open(url, "_blank");
   };
 
   const inputStyle = (key) => ({

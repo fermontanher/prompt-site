@@ -3,10 +3,10 @@ import {
   MousePointer2, ArrowRight, Check, X, Sparkles, Clock,
   DollarSign, AlertTriangle, Zap, Globe, Code, Shield,
   Rocket, Star, Users, Bot, Layers, Terminal, ChevronDown,
-  TrendingUp, Target, Lock
+  TrendingUp, Target, Lock, Menu
 } from "lucide-react";
 
-// ─── Google Fonts Loader ───────────────────────────────────────────────h───────
+// ─── Google Fonts Loader ──────────────────────────────────────────────────────
 const FontLoader = () => {
   useEffect(() => {
     if (!document.querySelector("#inter-font-link")) {
@@ -155,10 +155,19 @@ const ParticleCanvas = () => {
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return (
@@ -166,9 +175,9 @@ const Nav = () => {
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
       fontFamily: "Inter, sans-serif", fontWeight: 300,
       transition: "all 0.4s ease",
-      background: scrolled ? "rgba(0,0,0,0.85)" : "transparent",
-      backdropFilter: scrolled ? "blur(14px)" : "none",
-      borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
+      background: scrolled || menuOpen ? "rgba(0,0,0,0.95)" : "transparent",
+      backdropFilter: scrolled || menuOpen ? "blur(14px)" : "none",
+      borderBottom: scrolled || menuOpen ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "1.1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {/* Logo */}
@@ -179,29 +188,71 @@ const Nav = () => {
           <span style={{ color: "white", fontSize: "1.1rem", fontWeight: 300, letterSpacing: "0.03em" }}>Prompt Site</span>
         </div>
 
-        {/* Links */}
-        <div style={{ display: "flex", gap: "2.5rem" }}>
+        {/* Links — desktop only */}
+        {!isMobile && (
+          <div style={{ display: "flex", gap: "2.5rem" }}>
+            {["Como funciona", "Planos", "Tecnologias"].map((l) => (
+              <a key={l} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.875rem", fontWeight: 300, textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => e.target.style.color = "white"}
+                onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.55)"}>
+                {l}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* Right side */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          {/* CTA — desktop only */}
+          {!isMobile && (
+            <button style={{
+              background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white",
+              border: "none", borderRadius: 999, padding: "0.6rem 1.4rem",
+              fontSize: "0.875rem", fontWeight: 500, cursor: "pointer",
+              fontFamily: "Inter, sans-serif", transition: "transform 0.2s, opacity 0.2s"
+            }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+              Começar agora
+            </button>
+          )}
+
+          {/* Hamburger — mobile only */}
+          {isMobile && (
+            <button onClick={() => setMenuOpen(o => !o)} style={{
+              background: "transparent", border: "none", color: "white",
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              padding: "0.25rem"
+            }}>
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile dropdown menu */}
+      {isMobile && menuOpen && (
+        <div style={{
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          padding: "1.25rem 1.5rem 1.5rem",
+          display: "flex", flexDirection: "column", gap: "1.25rem"
+        }}>
           {["Como funciona", "Planos", "Tecnologias"].map((l) => (
-            <a key={l} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.875rem", fontWeight: 300, textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={e => e.target.style.color = "white"}
-              onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.55)"}>
+            <a key={l} href="#" onClick={() => setMenuOpen(false)}
+              style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", fontWeight: 300, textDecoration: "none" }}>
               {l}
             </a>
           ))}
+          <button onClick={() => setMenuOpen(false)} style={{
+            background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white",
+            border: "none", borderRadius: 999, padding: "0.75rem 1.4rem",
+            fontSize: "0.95rem", fontWeight: 500, cursor: "pointer",
+            fontFamily: "Inter, sans-serif", marginTop: "0.25rem"
+          }}>
+            Começar agora
+          </button>
         </div>
-
-        {/* CTA */}
-        <button style={{
-          background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white",
-          border: "none", borderRadius: 999, padding: "0.6rem 1.4rem",
-          fontSize: "0.875rem", fontWeight: 500, cursor: "pointer",
-          fontFamily: "Inter, sans-serif", transition: "transform 0.2s, opacity 0.2s"
-        }}
-          onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-          onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
-          Começar agora
-        </button>
-      </div>
+      )}
     </nav>
   );
 };
@@ -264,7 +315,7 @@ const Hero = () => (
 // ─── Pain Points ──────────────────────────────────────────────────────────────
 const PainSection = () => {
   const pains = [
-    { icon: Clock, title: "Meses esperando um site que deveria levar dias", desc: "Briefing, reuniões, aprovações, revisões, mais reuniões... quando entrega, o mercado já mudou. Seu concorrente já tã online enquanto você espera." },
+    { icon: Clock, title: "Meses esperando um site que deveria levar dias", desc: "Briefing, reuniões, aprovações, revisões, mais reuniões... quando entrega, o mercado já mudou. Seu concorrente já tá online enquanto você espera." },
     { icon: DollarSign, title: "Preços de agência que não fazem sentido", desc: "R$ 8.000 a R$ 30.000 por um site que nem é seu — fica na hospedagem deles, com contrato de manutenção eterna. Um saque disfarçado de serviço." },
     { icon: AlertTriangle, title: "Complexidade que paralisa", desc: "Domínio, hospedagem, SSL, CMS, plugins, atualizações... você abriu um negócio, não uma startup de tecnologia. Devia ser mais simples que isso." },
     { icon: Target, title: "Site bonito que não converte", desc: "Visualmente agradável, estrategicamente vazio. Sem copywriting, sem jornada do usuário, sem CTA. Bonito pra mostrar pro amigo, inútil pra trazer cliente." },
@@ -285,7 +336,7 @@ const PainSection = () => {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(440px, 1fr))", gap: "1rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(440px, 100%), 1fr))", gap: "1rem" }}>
           {pains.map(({ icon: Icon, title, desc }) => (
             <div key={title} style={{ padding: "1.75rem", borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", transition: "border-color 0.3s, background 0.3s", cursor: "default" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(239,68,68,0.3)"; e.currentTarget.style.background = "rgba(239,68,68,0.05)"; }}
@@ -383,7 +434,7 @@ const PlansSection = () => {
       desc: "Pra quem precisa de presença digital básica, sem frescura.",
       color: "rgba(255,255,255,0.06)",
       border: "rgba(255,255,255,0.1)",
-      higheight: false,
+      highlight: false,
       features: [
         { ok: true, text: "1 landing page completa" },
         { ok: true, text: "Até 5 seções estratégicas" },
@@ -409,7 +460,7 @@ const PlansSection = () => {
       desc: "O equilíbrio perfeito entre impacto visual e resultado real.",
       color: "linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.08))",
       border: "rgba(99,102,241,0.5)",
-      higheight: true,
+      highlight: true,
       scarcity: "Apenas 3 vagas este mês",
       features: [
         { ok: true, text: "Landing page completa multi-seção" },
@@ -435,7 +486,7 @@ const PlansSection = () => {
       desc: "Site completo, com tudo que uma empresa séria precisa.",
       color: "rgba(255,255,255,0.04)",
       border: "rgba(255,255,255,0.1)",
-      higheight: false,
+      highlight: false,
       features: [
         { ok: true, text: "Site completo multi-página" },
         { ok: true, text: "Blog integrado com painel admin" },
@@ -478,13 +529,13 @@ const PlansSection = () => {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.25rem", alignItems: "start" }}>
           {plans.map((plan) => (
             <div key={plan.name} style={{
-              padding: plan.higheight ? "2.25rem" : "2rem",
+              padding: plan.highlight ? "2.25rem" : "2rem",
               borderRadius: 20,
               border: `1px solid ${plan.border}`,
               background: plan.color,
               position: "relative",
-              transform: plan.higheight ? "scale(1.03)" : "scale(1)",
-              boxShadow: plan.higheight ? "0 0 60px rgba(99,102,241,0.2)" : "none",
+              transform: plan.highlight ? "scale(1.03)" : "scale(1)",
+              boxShadow: plan.highlight ? "0 0 60px rgba(99,102,241,0.2)" : "none",
               transition: "transform 0.3s",
             }}>
               {plan.tag && (
@@ -500,7 +551,7 @@ const PlansSection = () => {
                 </div>
               )}
 
-              <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, fontSize: "1rem", color: plan.higheight ? "#a5b4fc" : "rgba(255,255,255,0.6)", marginBottom: "0.5rem" }}>{plan.name}</p>
+              <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, fontSize: "1rem", color: plan.highlight ? "#a5b4fc" : "rgba(255,255,255,0.6)", marginBottom: "0.5rem" }}>{plan.name}</p>
 
               <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: "0.5rem" }}>
                 <span style={{ fontFamily: "Inter, sans-serif", fontWeight: 800, fontSize: "2.5rem", color: "white" }}>R$ {plan.price.toLocaleString("pt-BR")}</span>
@@ -554,7 +605,7 @@ const PlansSection = () => {
                 ) : plan.cta}
               </button>
             </div>
-         ))}
+          ))}
         </div>
 
         {/* Social proof */}
@@ -612,7 +663,7 @@ const PricingCompare = () => {
     {
       name: "Técnico & Marketing",
       rows: [
-        { label: "SEo técnico avançado",      starter: false,         pro: true,            premium: true },
+        { label: "SEO técnico avançado",      starter: false,         pro: true,            premium: true },
         { label: "Meta tags + Open Graph",    starter: "Básico",      pro: true,            premium: true },
         { label: "Sitemap + robots.txt",      starter: false,         pro: true,            premium: true },
         { label: "Integração WhatsApp / CRM", starter: false,         pro: true,            premium: true },
@@ -633,23 +684,23 @@ const PricingCompare = () => {
   ];
 
   const plans = [
-    { key: "starter", name: "Starter",  price: "R$ 497",  higheight: false },
-    { key: "pro",     name: "Pro",      price: "R$ 997",  higheight: true  },
-    { key: "premium", name: "Premium",  price: "R$ 1.997",higheight: false },
+    { key: "starter", name: "Starter",  price: "R$ 497",  highlight: false },
+    { key: "pro",     name: "Pro",      price: "R$ 997",  highlight: true  },
+    { key: "premium", name: "Premium",  price: "R$ 1.997",highlight: false },
   ];
 
-  const renderCell = (val, planKey, isHigheight) => {
+  const renderCell = (val, planKey, isHighlight) => {
     if (val === true)  return <span style={{ color: "#86efac", fontSize: "1rem" }}>✓</span>;
     if (val === false) return <span style={{ color: "rgba(255,255,255,0.18)", fontSize: "0.85rem" }}>—</span>;
     return (
-      <span style={{ fontFamily: "Inter, sans-serif", fontWeight: isHigheight ? 500 : 300, fontSize: "0.82rem", color: isHigheight ? "#e0e7ff" : "rgba(255,255,255,0.55)" }}>
+      <span style={{ fontFamily: "Inter, sans-serif", fontWeight: isHighlight ? 500 : 300, fontSize: "0.82rem", color: isHighlight ? "#e0e7ff" : "rgba(255,255,255,0.55)" }}>
         {val}
       </span>
     );
   };
 
-  const colBg   = (p) => p.higheight ? "rgba(99,102,241,0.10)" : "transparent";
-  const colBdr  = (p) => p.higheight ? "rgba(99,102,241,0.35)" : "rgba(255,255,255,0.06)";
+  const colBg   = (p) => p.highlight ? "rgba(99,102,241,0.10)" : "transparent";
+  const colBdr  = (p) => p.highlight ? "rgba(99,102,241,0.35)" : "rgba(255,255,255,0.06)";
 
   return (
     <section style={{ background: "#050508", padding: "5rem 1.5rem" }}>
@@ -684,13 +735,13 @@ const PricingCompare = () => {
                     onMouseEnter={() => setHovered(p.key)}
                     onMouseLeave={() => setHovered(null)}
                     style={{ padding: "1.25rem 1rem", textAlign: "center", width: "21.6%", background: colBg(p), borderLeft: `1px solid ${colBdr(p)}`, borderTop: `1px solid ${colBdr(p)}`, borderTopLeftRadius: 12, borderTopRightRadius: 12, transition: "background 0.2s", cursor: "default" }}>
-                    {p.higheight && (
+                    {p.highlight && (
                       <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", fontWeight: 600, color: "#a5b4fc", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>
                         ⭐ Recomendado
                       </div>
                     )}
                     <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, color: "white", fontSize: "1rem" }}>{p.name}</div>
-                    <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 700, color: p.higheight ? "#a5b4fc" : "rgba(255,255,255,0.7)", fontSize: "1.25rem", marginTop: "0.3rem" }}>{p.price}</div>
+                    <div style={{ fontFamily: "Inter, sans-serif", fontWeight: 700, color: p.highlight ? "#a5b4fc" : "rgba(255,255,255,0.7)", fontSize: "1.25rem", marginTop: "0.3rem" }}>{p.price}</div>
                   </th>
                 ))}
               </tr>
@@ -729,7 +780,7 @@ const PricingCompare = () => {
                             borderBottomRightRadius: isLast && p.key === "premium" ? 0 : 0,
                             transition: "background 0.2s",
                           }}>
-                            {renderCell(row[p.key], p.key, p.higheight)}
+                            {renderCell(row[p.key], p.key, p.highlight)}
                           </td>
                         ))}
                       </tr>
@@ -745,8 +796,8 @@ const PricingCompare = () => {
                   <td key={p.key} style={{ padding: "1.5rem 1rem", textAlign: "center", background: colBg(p), borderLeft: `1px solid ${colBdr(p)}`, borderBottom: `1px solid ${colBdr(p)}`, borderBottomLeftRadius: 12, borderBottomRightRadius: 12 }}>
                     <button style={{
                       width: "100%", padding: "0.7rem 0.5rem", borderRadius: 10,
-                      background: p.higheight ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "rgba(255,255,255,0.07)",
-                      color: "white", border: p.higheight ? "none" : "1px solid rgba(255,255,255,0.12)",
+                      background: p.highlight ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "rgba(255,255,255,0.07)",
+                      color: "white", border: p.highlight ? "none" : "1px solid rgba(255,255,255,0.12)",
                       fontSize: "0.82rem", fontWeight: 600, cursor: "pointer",
                       fontFamily: "Inter, sans-serif", transition: "opacity 0.2s, transform 0.15s",
                     }}
@@ -773,7 +824,7 @@ const PricingCompare = () => {
 // ─── Benefits + Tech ──────────────────────────────────────────────────────────
 const BenefitsTech = () => {
   const benefits = [
-    { icon: Zap, title: "Velocidade real", desc: "De zero a online em até 48h. Não é promessa — é processo." },
+    { icon: Zap, title: "Velocidade real", desc: "De zero a online em até 48h. Não é promessa — �) processo." },
     { icon: TrendingUp, title: "Feito pra converter", desc: "Cada palavra, botão e seção têm uma função estratégica. Não é decoração." },
     { icon: Shield, title: "Você fica com tudo", desc: "O código é seu. O domínio é seu. Sem dependência de agência." },
     { icon: Globe, title: "Performance global", desc: "Hospedagem edge com Vercel — carrega rápido em qualquer lugar do mundo." },
@@ -859,7 +910,7 @@ const FinalCTA = () => (
         de ter um site que converte.
       </h2>
       <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.55)", fontSize: "1.1rem", lineHeight: 1.8, marginBottom: "2.5rem" }}>
-        Enquanto você là isso, seus concorrentes estão online. Não adie mais o que pode transformar seu negócio ainda esta semana.
+        Enquanto você lê isso, seus concorrentes estão online. Não adie mais o que pode transformar seu negócio ainda esta semana.
       </p>
       <button style={{ background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", border: "none", borderRadius: 999, padding: "1.1rem 2.5rem", fontSize: "1.1rem", fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 10, fontFamily: "Inter, sans-serif", transition: "transform 0.2s, box-shadow 0.2s" }}
         onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.boxShadow = "0 0 50px rgba(99,102,241,0.4)"; }}
@@ -910,7 +961,7 @@ const FAQSection = () => {
     },
     {
       q: "Preciso entender de código ou tecnologia?",
-      a: "Nenhuma. Você só precisa descrever o seu negócio com clareza — a restante é comigo. Após a entrega, o painel de edição é simples o suficiente para qualquer pessoa atualizar textos e imagens.",
+      a: "Nenhuma. Você só precisa descrever o seu negócio com clareza — o restante é comigo. Após a entrega, o painel de edição é simples o suficiente para qualquer pessoa atualizar textos e imagens.",
     },
     {
       q: "Como funciona o domínio (.com.br, .com)?",
@@ -1047,16 +1098,16 @@ const ContactForm = () => {
         </div>
 
         <div style={{ padding: "2.5rem", borderRadius: 24, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: "1.25rem" }}>
 
-            <div style={{ ...fieldWrap, gridColumn: "1" }}>
+            <div style={{ ...fieldWrap }}>
               <label style={labelStyle}>Seu nome</label>
               <input style={inputStyle("name")} placeholder="Ex: Ana Lima" value={form.name}
                 onChange={e => handle("name", e.target.value)}
                 onFocus={() => setFocused("name")} onBlur={() => setFocused(null)} />
             </div>
 
-            <div style={{ ...fieldWrap, gridColumn: "2" }}>
+            <div style={{ ...fieldWrap }}>
               <label style={labelStyle}>Contato (WhatsApp ou e-mail)</label>
               <input style={inputStyle("contact")} placeholder="(11) 99999-9999" value={form.contact}
                 onChange={e => handle("contact", e.target.value)}
@@ -1163,6 +1214,29 @@ export default function PromptSiteLanding() {
       <ContactForm />
       <FinalCTA />
       <Footer />
+
+      {/* WhatsApp floating button */}
+      <a
+        href="https://wa.me/5514981294576"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          position: "fixed", bottom: "1.75rem", right: "1.75rem", zIndex: 999,
+          width: 56, height: 56, borderRadius: "50%",
+          background: "#25D366",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 4px 20px rgba(37,211,102,0.45)",
+          transition: "transform 0.2s, box-shadow 0.2s",
+          textDecoration: "none",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.1)"; e.currentTarget.style.boxShadow = "0 6px 28px rgba(37,211,102,0.6)"; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(37,211,102,0.45)"; }}
+        aria-label="Fale pelo WhatsApp"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
     </div>
   );
 }

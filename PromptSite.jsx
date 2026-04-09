@@ -191,11 +191,11 @@ const Nav = () => {
         {/* Links — desktop only */}
         {!isMobile && (
           <div style={{ display: "flex", gap: "2.5rem" }}>
-            {["Como funciona", "Planos", "Tecnologias"].map((l) => (
-              <a key={l} href="#" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.875rem", fontWeight: 300, textDecoration: "none", transition: "color 0.2s" }}
+            {[["Como funciona","como-funciona"],["Planos","planos"],["Tecnologias","tecnologias"]].map(([label, id]) => (
+              <a key={id} href={`#${id}`} onClick={e => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }} style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.875rem", fontWeight: 300, textDecoration: "none", transition: "color 0.2s" }}
                 onMouseEnter={e => e.target.style.color = "white"}
                 onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.55)"}>
-                {l}
+                {label}
               </a>
             ))}
           </div>
@@ -205,7 +205,7 @@ const Nav = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           {/* CTA — desktop only */}
           {!isMobile && (
-            <button style={{
+            <button onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })} style={{
               background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white",
               border: "none", borderRadius: 999, padding: "0.6rem 1.4rem",
               fontSize: "0.875rem", fontWeight: 500, cursor: "pointer",
@@ -237,10 +237,10 @@ const Nav = () => {
           padding: "1.25rem 1.5rem 1.5rem",
           display: "flex", flexDirection: "column", gap: "1.25rem"
         }}>
-          {["Como funciona", "Planos", "Tecnologias"].map((l) => (
-            <a key={l} href="#" onClick={() => setMenuOpen(false)}
+          {[["Como funciona","como-funciona"],["Planos","planos"],["Tecnologias","tecnologias"]].map(([label, id]) => (
+            <a key={id} href={`#${id}`} onClick={e => { e.preventDefault(); setMenuOpen(false); document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); }}
               style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", fontWeight: 300, textDecoration: "none" }}>
-              {l}
+              {label}
             </a>
           ))}
           <button onClick={() => setMenuOpen(false)} style={{
@@ -375,7 +375,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section style={{ background: "#050508", padding: "6rem 1.5rem" }}>
+    <section id="como-funciona" style={{ background: "#050508", padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1050, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={{ fontFamily: "monospace", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#a5b4fc" }}>Como funciona</span>
@@ -835,7 +835,7 @@ const BenefitsTech = () => {
   ];
 
   return (
-    <section style={{ background: "#050508", padding: "6rem 1.5rem" }}>
+    <section id="tecnologias" style={{ background: "#050508", padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Benefits */}
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
